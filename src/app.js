@@ -24,7 +24,7 @@ import {setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate} from 
 import getVisibleFilters from './selectors/expenses';
 
 const store = configureStore(); //executing it as a function what we just imported
-
+//console.log("testing"); //for source map testing
 //..........................now we can access all those which are related to store
 
 //console.log(store.getState());

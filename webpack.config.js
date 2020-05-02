@@ -2,8 +2,17 @@
 //here we specify the entry and output for webpack to bundle
 const path=require('path');
 //console.log(path.join(__dirname,'Public'));
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports={
+module.exports = (env) => {
+    //console.log("env", env)
+    
+    const isProduction = env === 'production';
+    const MiniCssExtract = new MiniCssExtractPlugin({
+      filename: 'styles.css'  
+    }) //extracting all css files to one file styles.css
+    
+    return {
     entry: './src/app.js',
     output:{
         path: path.join(__dirname, 'Public'),
@@ -17,14 +26,36 @@ module: {
   },
    {
      test: /\.s?css$/,
-     use: ['style-loader', 'css-loader', 'sass-loader']
+     use: [MiniCssExtractPlugin.loader, 
+           {
+                loader: 'css-loader',
+                options: {
+                  sourceMap: true,
+                },
+           },
+           {
+               
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true,
+                },
+               
+           },
+            
+           ]
    }]        
         
 },
-    devtool: 'cheap-module-eval-source-map',
+plugins:[
+         MiniCssExtract
+        ],
+    devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer:{
         contentBase: path.join(__dirname, 'Public'),
         historyApiFallback:true
     }
     
-};
+}
+    
+    
+}
