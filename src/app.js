@@ -30,21 +30,22 @@ const store = configureStore(); //executing it as a function what we just import
 //console.log(store.getState());
 
 
-//now changing data using store dispatch
-store.dispatch(addExpense({
-    description:'Water Bill',
-    amount:4500,
- 
-}))
-store.dispatch(addExpense({
-    description:'Gas Bill',
-    createdAt:1000
-}))
-store.dispatch(addExpense({
-    description:'Rent',
-    amount:10500,
-  
-}))
+//.....................now changing data using store dispatch
+
+//store.dispatch(addExpense({
+//    description:'Water Bill',
+//    amount:4500,
+// 
+//}))
+//store.dispatch(addExpense({
+//    description:'Gas Bill',
+//    createdAt:1000
+//}))
+//store.dispatch(addExpense({
+//    description:'Rent',
+//    amount:10500,
+//  
+//}))
 
 //--------------Text Filter
 //store.dispatch(setTextFilter("water"))
@@ -55,10 +56,11 @@ store.dispatch(addExpense({
 //}, 3000);
 
 
-//filtering 
-const state = store.getState();//retrieving all details from store and saving it in state variable
-const filtered = getVisibleFilters(state.expenses, state.filters);
-console.log(filtered);
+//...................filtering 
+
+//const state = store.getState();//retrieving all details from store and saving it in state variable
+//const filtered = getVisibleFilters(state.expenses, state.filters);
+//console.log(filtered);
 
 //console.log(store.getState());
 
