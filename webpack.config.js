@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //entry -> output
 //here we specify the entry and output for webpack to bundle
 const path=require('path');
@@ -60,7 +59,7 @@ plugins:[
     
     
 }
-=======
+
 //entry -> output
 //here we specify the entry and output for webpack to bundle
 const path=require('path');
@@ -122,4 +121,4 @@ plugins:[
     
     
 }
->>>>>>> e1b7d64bdaa0e51d4b19d448d0c4f75b5a0691ed
+
