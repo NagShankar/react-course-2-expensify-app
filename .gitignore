@@ -2,4 +2,8 @@ node_modules/
 public/bundle.js
 public/bundle.js.map
 public/styles.css
+<<<<<<< HEAD
 public/styles.css.map
+=======
+public/styles.css.map
+>>>>>>> e1b7d64bdaa0e51d4b19d448d0c4f75b5a0691ed
