@@ -1,7 +1,7 @@
 //entry -> output
 //here we specify the entry and output for webpack to bundle
 const path=require('path');
-//console.log(path.join(__dirname,'Public'));
+//console.log(path.join(__dirname,'public'));
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env) => {
@@ -15,7 +15,7 @@ module.exports = (env) => {
     return {
     entry: './src/app.js',
     output:{
-        path: path.join(__dirname, 'Public'),
+        path: path.join(__dirname, 'public'),
         filename: 'bundle.js'
     },
 module: {
@@ -51,7 +51,7 @@ plugins:[
         ],
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer:{
-        contentBase: path.join(__dirname, 'Public'),
+        contentBase: path.join(__dirname, 'public'),
         historyApiFallback:true
     }
     
