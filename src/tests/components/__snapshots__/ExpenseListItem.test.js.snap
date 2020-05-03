@@ -12,9 +12,9 @@ exports[`should render single list item 1`] = `
   </Link>
   <h4>
     Amount: 
-    4500
+    ₹4,500.00
      Created: 
-    345600000
+    January 5th, 1970
   </h4>
 </div>
 `;
