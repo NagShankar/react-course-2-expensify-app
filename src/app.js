@@ -19,6 +19,11 @@ import configureStore from './store/configureStore'
 import {addExpense, removeExpense, editExpense} from './actions/expenses'
 import {setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate} from './actions/filters'
 
+//importing firebase
+import './firebase/firebase';
+
+//importing playground es6 promises
+//import './playground/promises'
 
 //importing selectors to filter out data
 import getVisibleFilters from './selectors/expenses';
@@ -72,6 +77,8 @@ const jsx=(
     </Provider>
     
 );
+
+
 
 //rendering
 ReactDOM.render(

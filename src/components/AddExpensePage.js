@@ -1,7 +1,9 @@
 import React from "react";
 import ExpenseForm from "./ExpenseForm";
 import { connect } from "react-redux";
-import { addExpense } from "./../actions/expenses";
+//...........after adding middleware and modifying addExpense action creator
+//import { addExpense } from "./../actions/expenses";
+import { startAddExpense } from "./../actions/expenses";
 
 
 //previosly this was functional component, now changed to class for testing the unconnected version
@@ -33,7 +35,7 @@ export class AddExpensePage extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        submitNow : (expense) => dispatch(addExpense(expense))
+        submitNow : (expense) => dispatch(startAddExpense(expense)) //changed addExpense(expense) to startAddExpense(expense)
    }
 }
 
