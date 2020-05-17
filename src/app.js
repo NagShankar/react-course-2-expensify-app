@@ -19,6 +19,8 @@ import configureStore from './store/configureStore'
 import {addExpense, removeExpense, editExpense} from './actions/expenses'
 import {setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate} from './actions/filters'
 
+import { startSetExpenses } from './actions/expenses'
+
 //importing firebase
 import './firebase/firebase';
 
@@ -78,12 +80,21 @@ const jsx=(
     
 );
 
-
-
-//rendering
+//rendering Loading... until data gets fetched
 ReactDOM.render(
-jsx,
+<p>Loading...</p>,
 document.getElementById('app')
 )
+
+//after data loads, dispatch an action to display it 
+store.dispatch(startSetExpenses()).then(()=>{
+       //rendering
+        ReactDOM.render(
+        jsx,
+        document.getElementById('app')
+        )
+})
+
+
 
 

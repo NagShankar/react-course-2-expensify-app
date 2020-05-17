@@ -2,12 +2,22 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import {startAddExpense, addExpense, removeExpense, editExpense} from '../../actions/expenses';
+import {startAddExpense, addExpense, removeExpense, editExpense, setExpenses, startSetExpenses} from '../../actions/expenses';
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 
 const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares); //we are providing a middleware for our mock store
+
+//this sets up dummy data before each test could run and wipes the data for each test case, only the data written by last test case remains along with our dummy test data which we loop over dummy expenses from fixtures
+beforeEach((done)=>{
+    const expensesData = {};
+    expenses.forEach(({ id, description, note, amount, createdAt })=>{
+        expensesData[id] = { description, note, amount, createdAt };
+    });
+    database.ref('expenses').set(expensesData).then(() => done());
+})
+
 
 //removeExpense test case
 test('should setup remove expense action object', () => {
@@ -57,8 +67,8 @@ test('should setup add expense action object', ()=>{
 //     }
     //const action = addExpense(expenseData);
     
-const action =  addExpense(expenses[2]);   
-    expect(action).toEqual({
+  const action =  addExpense(expenses[2]);   
+     expect(action).toEqual({
          type:"ADD_EXPENSE",
          expense:expenses[2]
 //         expense:{
@@ -139,6 +149,28 @@ test('should add expense with defaults to database and store',(done)=>{
     
 });
 
+//setExpenses test case
+test('should setup set expense action object with data', ()=>{
+    const action = setExpenses(expenses);
+    expect(action).toEqual({
+        type:"SET_EXPENSES",
+        expenses
+    })
+})
+
+//setExpenses aync test case
+test('should fetch expenses from firebase', (done)=>{
+    const store= mockStore(); //creating a mock store
+    store.dispatch(startSetExpenses()).then(()=>{
+        const actions = store.getActions();//getting all actions that are dispatched to our mocked store 
+        expect(actions[0]).toEqual({
+             type:"SET_EXPENSES",
+             expenses //our dummy expenses
+        });
+        done();
+    })
+    
+})
 
 //for default values
 //test('should setup add expense action object for default values', ()=>{

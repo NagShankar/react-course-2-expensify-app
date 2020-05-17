@@ -75,4 +75,49 @@ export const editExpense = (id, updates) => {
 }
 
 
+//SET_EXPENSE
+//..........for fetching data from firebase and storing it in store
+export const setExpenses = (expenses) => {
+    return {
+        type:"SET_EXPENSES",
+        expenses
+    }
+}
+
+//this is async call which finally dispatches above action to store the data in store
+export const startSetExpenses = () => {
+    return (dispatch) => {
+        
+  //..................................................now FETCHing data which are in array like format from firebase      
+    return database.ref('expenses').once('value')
+                        .then((snapshot)=>{
+                           
+                             //console.log(snapshot.val());//even this retunrs in object format
+                            
+                             //we have another method just for this format, we can iterate over those item using forEach and push it inside an empty array
+                             const expenses=[];
+                             snapshot.forEach((childSnapshot) => {
+                             expenses.push({
+                                     id: childSnapshot.key,
+                                     ...childSnapshot.val()
+                                   })
+                               }); 
+                          //console.log(expenses);
+                        
+                        //dispatching to store
+                         dispatch(setExpenses(expenses))
+
+           
+                         }).catch((e)=>{
+                            console.log("error!!!", e)
+                       }); 
+        
+        
+        
+        
+        
+    }
+}
+
+
 //we are doing named export
