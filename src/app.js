@@ -16,8 +16,8 @@ import AppRouter from './routers/AppRouter';
 import configureStore from './store/configureStore'
 
 //importing action creators and filters
-import {addExpense, removeExpense, editExpense} from './actions/expenses'
-import {setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate} from './actions/filters'
+//import {addExpense} from './actions/expenses'
+import {setTextFilter} from './actions/filters'
 
 import { startSetExpenses } from './actions/expenses'
 

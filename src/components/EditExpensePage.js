@@ -1,7 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
-import { editExpense, removeExpense } from "./../actions/expenses";
+//import { editExpense } from "./../actions/expenses";
+import { startEditExpense } from "./../actions/expenses";
+//import { removeExpense } from "./../actions/expenses";
+import { startRemoveExpense } from "./../actions/expenses";
 
 //previosly this was functional component, now changed to class for testing the unconnected version
 export class EditExpensePage extends React.Component{
@@ -47,8 +50,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  editExpense: (id, expense) => dispatch(editExpense(id, expense)),
-  removeNow: (data) => dispatch(removeExpense( data ))
+  editExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
+  removeNow: (data) => dispatch(startRemoveExpense( data )) //changed removeExpense(data) to startRemoveExpense(data), i.e we are dispatching async call here
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);

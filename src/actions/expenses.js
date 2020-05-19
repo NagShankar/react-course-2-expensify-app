@@ -62,6 +62,16 @@ export const removeExpense = ({id}={}) => {
     }
 }
 
+export const startRemoveExpense = ({id}={}) => {
+    return (dispatch) => {
+       return database.ref(`expenses/${id}`).remove().then(()=>{
+            dispatch(removeExpense({id}));
+        }).catch((e)=>{
+            alert("error")
+        })
+    }
+}
+
 
 
 //EDIT_EXPENSE
@@ -73,6 +83,21 @@ export const editExpense = (id, updates) => {
         
     }
 }
+
+//this is async call which finally dispatches above action to store the data in store
+export const startEditExpense = (id, updates) => {
+
+    return(dispatch) => {
+      return database.ref(`expenses/${id}`).update(updates).then(()=>{   //*************************NOTE:we are returning this for testing purpose, so we can chain "then" call for the then returned here
+            dispatch(editExpense(id, updates));
+            
+        }).catch((e)=>{
+            alert("error updating")
+        })
+    }
+    
+}
+
 
 
 //SET_EXPENSE
@@ -89,7 +114,7 @@ export const startSetExpenses = () => {
     return (dispatch) => {
         
   //..................................................now FETCHing data which are in array like format from firebase      
-    return database.ref('expenses').once('value')
+    return database.ref('expenses').once('value') //returning promise here, by using return value we can continue in app.js using "then" after fetching expenses and rendering using ReactDOM.render
                         .then((snapshot)=>{
                            
                              //console.log(snapshot.val());//even this retunrs in object format
@@ -105,7 +130,7 @@ export const startSetExpenses = () => {
                           //console.log(expenses);
                         
                         //dispatching to store
-                         dispatch(setExpenses(expenses))
+                         dispatch(setExpenses(expenses)) //this will set the expenses in the redux store by dispatching action creator setExpenses and case SET_EXPENSES in expenses reducer, thus making expenses available to ExpenseList.js component to render the expenses through ExpenseListItem.js component one by one
 
            
                          }).catch((e)=>{

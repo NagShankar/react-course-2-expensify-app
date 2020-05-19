@@ -88,7 +88,7 @@ export {firebase, database as default};
 //                        .catch((e)=>{console.log('doesnt exist?', e)})
 
 //we can also remove by using set
-//atabase.ref('location/city').set(null)
+//database.ref('location/city').set(null)
 
 //..................................................................UPDATing database
 

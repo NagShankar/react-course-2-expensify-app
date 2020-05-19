@@ -35,7 +35,7 @@ export class AddExpensePage extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        submitNow : (expense) => dispatch(startAddExpense(expense)) //changed addExpense(expense) to startAddExpense(expense)
+        submitNow : (expense) => dispatch(startAddExpense(expense)) //changed addExpense(expense) to startAddExpense(expense), i.e we are dispatching async call here
    }
 }
 

@@ -2,7 +2,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import {startAddExpense, addExpense, removeExpense, editExpense, setExpenses, startSetExpenses} from '../../actions/expenses';
+import {startAddExpense, addExpense, removeExpense, editExpense, setExpenses, startSetExpenses, startRemoveExpense, startEditExpense} from '../../actions/expenses';
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 
@@ -41,6 +41,26 @@ test('should setup remove expense action object', () => {
     
 })
 
+//remove Expense on firebase aync test case
+test("should remove expense on firebase", (done)=>{
+   const store= mockStore(); //creating a mock store
+   const id = expenses[2].id;
+   store.dispatch(startRemoveExpense({id})).then(()=>{
+        const actions = store.getActions();//getting all actions that are dispatched to our mocked store
+        expect(actions[0]).toEqual({
+            type:"REMOVE_EXPENSE",
+            id
+        })
+       return database.ref(`expenses/${id}`).once('value');
+       
+   }).then((snapshot)=>{
+       expect(snapshot.val()).toBeFalsy();
+       done();
+   }) 
+    
+    
+})
+
 //editExpense test case
 test('should setup edit expense action object', () => {
   const action = editExpense("9373abc", { note:'new note value'}); 
@@ -53,6 +73,29 @@ test('should setup edit expense action object', () => {
         }
     })
     
+})
+
+//remove Expense on firebase aync test case
+test('should edit expense on firebase', (done)=>{
+    const store = mockStore(); //creating a mock store
+    const id = expenses[0].id;
+    const updates = {amount:2000}
+    
+    store.dispatch(startEditExpense(id,updates)).then(()=>{
+        const actions = store.getActions();//getting all actions that are dispatched to our mocked store
+        expect(actions[0]).toEqual({  //checking if it was dispatched with expected data
+            type:"EDIT_EXPENSE",
+            id,
+            updates
+        })
+        
+         //checking the data stored on database
+        return database.ref(`expenses/${id}`).once('value'); //returning here to make assertions in the next then
+        
+    }).then((snapshot)=>{
+        expect(snapshot.val().amount).toBe(updates.amount);
+        done();
+    })
 })
 
 //addExpense test case
