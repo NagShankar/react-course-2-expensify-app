@@ -11,24 +11,29 @@ import "react-dates/lib/css/_datepicker.css"; //from ExpenseForm, to use in othe
 
 //importing AppRouter
 import AppRouter from './routers/AppRouter';
+import { history } from './routers/AppRouter'; //importing ourn own history
 
 //importing store, we are giving some random name, here configureStore, later using it to execute it as a function
 import configureStore from './store/configureStore'
 
 //importing action creators and filters
-//import {addExpense} from './actions/expenses'
-import {setTextFilter} from './actions/filters'
+//import {addExpense} from './actions/expenses' //no more used here
+//import {setTextFilter} from './actions/filters' //no more used here
 
 import { startSetExpenses } from './actions/expenses'
 
+//importing login and logout actions
+import { login, logout } from './actions/auth'
+
 //importing firebase
-import './firebase/firebase';
+//import './firebase/firebase'; //we're importing this for CRUD operations testing inside firebase.js, which app.js requires in order to run that file from inside main application, just like we import playground/promises to play with it
+import { firebase } from './firebase/firebase'; //we're importing this for checking tuthentication below
 
 //importing playground es6 promises
-//import './playground/promises'
+//import './playground/promises' //we're importing this for working with promises from playground file
 
 //importing selectors to filter out data
-import getVisibleFilters from './selectors/expenses';
+//import getVisibleFilters from './selectors/expenses'; //no more used here
 
 const store = configureStore(); //executing it as a function what we just imported
 //console.log("testing"); //for source map testing
@@ -80,6 +85,16 @@ const jsx=(
     
 );
 
+//rendering based on login and logout
+let hasRendered = false; //initial value
+const renderApp = () => {
+    if(!hasRendered){
+        ReactDOM.render(jsx, document.getElementById('app'));
+        hasRendered = true;
+    }
+    
+}
+
 //rendering Loading... until data gets fetched
 ReactDOM.render(
 <p>Loading...</p>,
@@ -87,14 +102,42 @@ document.getElementById('app')
 )
 
 //after data loads, dispatch an action to display it 
-store.dispatch(startSetExpenses()).then(()=>{
-       //rendering
-        ReactDOM.render(
-        jsx,
-        document.getElementById('app')
-        )
-})
+//store.dispatch(startSetExpenses()).then(()=>{
+//       //rendering
+//        ReactDOM.render(
+//        jsx,
+//        document.getElementById('app')
+//        )
+//})
 
-
+//checking authentication
+firebase.auth().onAuthStateChanged((user)=>{   //onAuthStateChanged checks if user goes from authenticated to unauthenticated or vice versa
+    if(user){
+        //console.log(user); //details from firebase
+        //console.log(user.uid); //user has unique user id
+        store.dispatch(login(user.uid));//store user id in the store
+        
+        //we're dispatchng actions login and logout here because onAuthStateChanged loads first and checks if the user is already logged in or not, if logged in the uid will be already set, if we dispatch this action inside "startLogin" action then we set uid only after stratlogin get called, in this case it will not check if user is already logged in before itself and user is trying to just refresh the already logged in page
+        
+        console.log("you\'re logged in, woohoo");
+        //now fetching data and rendering only when logged in
+        store.dispatch(startSetExpenses()).then(()=>{
+             //rendering
+             //ReactDOM.render(jsx, document.getElementById('app'))
+              renderApp();
+              if(history.location.pathname === "/"){ //check location and then redirect to dashboard after logging in
+                  history.push("/dashboard");
+               }
+           })
+    }
+    else{
+        console.log("now you\'re logged out");
+       //ReactDOM.render(jsx, document.getElementById('app'));//if you dont do this, user will be seeing Loading..., so we will render the app to redirect to see atleast login page, BUT we dont want to render every time, render only if not rendered, render ONLY ONE TIME, during login or during logout. When already logged in, and then when we logout, we just redirect to login page.
+        store.dispatch(logout());//store user id in the store
+        renderApp();
+        history.push("/"); //push to login page when logged out, no matter wherever user is, in any page, it doesn't matter, he will be redirected to login page
+    }
+    
+});
 
 

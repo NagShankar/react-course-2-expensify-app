@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk'; //always recommnded to import third party libraries first and then import your app related
 import expensesReducer from '../reducers/expenses';
 import filterReducer from '../reducers/filters';
-import thunk from 'redux-thunk';
+import authReducer from "../reducers/auth";
 
 //----------------------------------------STORE---------------------------------------------------
 //------- STORE creation using combineReducers
@@ -26,7 +27,8 @@ const configureStore = () => {
     const store=createStore(
      combineReducers({
        expenses: expensesReducer,
-       filters: filterReducer
+       filters: filterReducer,
+       auth: authReducer
           }), 
         composeEnhancers(applyMiddleware(thunk)) //another way of using dev tool, by wrapping it in a function created above
        //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() //enabling Redux dev tool for this store
