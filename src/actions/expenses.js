@@ -32,11 +32,13 @@ export const addExpense = (expense) => {
 }
 
 export const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+    const uid = getState().auth.uid;//thunk takes second argument getState, using that we can fetch uid of that particular user
     const { description='', note='', amount=0, createdAt=0 } = expenseData; //just another way of setting up default if expenseData is an empty object
     const expense = { description, note,  amount, createdAt}; //instead of pushin the values we just destrcutured above individually, place it inside variable and use it for pushing
-        
-    return database.ref("expenses").push(expense).then((ref)=>{
+    
+    //instead of wrtigin to "expenses" we go inside particular user and write the there, before -> database.ref("expenses").push(expense)...     
+    return database.ref(`users/${uid}/expenses`).push(expense).then((ref)=>{
         dispatch(addExpense({
             id:ref.key,     //getting id from key created by firebase after PUSH method
             ...expense
@@ -63,8 +65,9 @@ export const removeExpense = ({id}={}) => {
 }
 
 export const startRemoveExpense = ({id}={}) => {
-    return (dispatch) => {
-       return database.ref(`expenses/${id}`).remove().then(()=>{
+    return (dispatch, getState) => {
+    const uid = getState().auth.uid;//thunk takes second argument getState, using that we can fetch uid of that particular user 
+       return database.ref(`users/${uid}/expenses/${id}`).remove().then(()=>{
             dispatch(removeExpense({id}));
         }).catch((e)=>{
             alert("error")
@@ -87,8 +90,9 @@ export const editExpense = (id, updates) => {
 //this is async call which finally dispatches above action to store the data in store
 export const startEditExpense = (id, updates) => {
 
-    return(dispatch) => {
-      return database.ref(`expenses/${id}`).update(updates).then(()=>{   //*************************NOTE:we are returning this for testing purpose, so we can chain "then" call for the then returned here
+    return(dispatch, getState) => {
+    const uid = getState().auth.uid;//thunk takes second argument getState, using that we can fetch uid of that particular user 
+      return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(()=>{   //*************************NOTE:we are returning this for testing purpose, so we can chain "then" call for the then returned here
             dispatch(editExpense(id, updates));
             
         }).catch((e)=>{
@@ -111,10 +115,10 @@ export const setExpenses = (expenses) => {
 
 //this is async call which finally dispatches above action to store the data in store
 export const startSetExpenses = () => {
-    return (dispatch) => {
-        
+    return (dispatch, getState) => {
+    const uid = getState().auth.uid;//thunk takes second argument getState, using that we can fetch uid of that particular user  
   //..................................................now FETCHing data which are in array like format from firebase      
-    return database.ref('expenses').once('value') //returning promise here, by using return value we can continue in app.js using "then" after fetching expenses and rendering using ReactDOM.render
+    return database.ref(`users/${uid}/expenses`).once('value') //returning promise here, by using return value we can continue in app.js using "then" after fetching expenses and rendering using ReactDOM.render
                         .then((snapshot)=>{
                            
                              //console.log(snapshot.val());//even this retunrs in object format

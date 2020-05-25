@@ -13,11 +13,11 @@ import AddExpensePage from '../components/AddExpensePage';
 import EditExpensePage from '../components/EditExpensePage';
 import ExpenseDashboardPage from '../components/ExpenseDashboardPage';
 //import Header from '../components/Header'; //now using inside PrivateRoute
-import HelpPage from '../components/HelpPage';
 import NotFoundPage from '../components/NotFoundPage';
 
-//private route import
+//private route and public route import
 import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 //create own history
 export const history = createBrowserHistory(); //exporting to use history everywhere in the application
@@ -47,11 +47,10 @@ const AppRouter = () => (
 <Router history={history}>
    
     <Switch>
-      <Route path="/" component={Login} exact={true}/>
+      <PublicRoute path="/" component={Login} exact={true}/>
       <PrivateRoute path="/dashboard" component={ExpenseDashboardPage}/>
       <PrivateRoute path="/create" component={AddExpensePage}/>
       <PrivateRoute path="/edit/:id" component={EditExpensePage}/>
-      <Route path="/help" component={HelpPage}/>
       <Route component={NotFoundPage}/>
      
      </Switch>
