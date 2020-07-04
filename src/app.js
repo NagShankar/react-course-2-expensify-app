@@ -29,6 +29,8 @@ import { login, logout } from './actions/auth'
 //import './firebase/firebase'; //we're importing this for CRUD operations testing inside firebase.js, which app.js requires in order to run that file from inside main application, just like we import playground/promises to play with it
 import { firebase } from './firebase/firebase'; //we're importing this for checking tuthentication below
 
+import LoadingPage from './components/LoadingPage';
+
 //importing playground es6 promises
 //import './playground/promises' //we're importing this for working with promises from playground file
 
@@ -97,7 +99,7 @@ const renderApp = () => {
 
 //rendering Loading... until data gets fetched
 ReactDOM.render(
-<p>Loading...</p>,
+<LoadingPage />,
 document.getElementById('app')
 )
 

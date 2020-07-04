@@ -27,12 +27,21 @@ export class EditExpensePage extends React.Component{
         return(
                         
             <div>
-           Editing Expense for id: {this.props.match.params.id}
+            
+            <div className="page-header">
+               <div className="content-container">
+                   <h1 className="page-header__title">Editing Expense for id: {this.props.match.params.id}</h1>
+                </div>
+            </div>
+            
+          <div className="content-container">
                 <ExpenseForm 
                       expense={this.props.expense} /* passing the matched expense as a prop to ExpenseForm component which then can be used to set the default and populate the fields with that data */
                       onSubmission={this.onSubmission}
                 />
-               <button onClick={this.removeNow}> Remove </button>
+               <button className="button button--secondary" onClick={this.removeNow}>Remove Expense</button>
+          </div> 
+            
           </div>
             
         );

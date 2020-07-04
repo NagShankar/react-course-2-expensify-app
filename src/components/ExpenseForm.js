@@ -75,7 +75,7 @@ class ExpenseForm extends React.Component {
       //alert("please enter value for desc and amount")
       //set error state to "Please provide description and amount"
       this.setState(() => ({
-        error: "Please provide description and amount",
+        error: "Please provide description and amount...",
       }));
     } else {
 
@@ -104,11 +104,14 @@ class ExpenseForm extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.onSubmit}>
+        
+        <form className="form" onSubmit={this.onSubmit}>
+        
+        {this.state.error && <p className="form__error">{this.state.error}</p>}
+        
           <input
             type="text"
+            className="text-input"
             name="description"
             placeholder="Description"
             value={this.state.description}
@@ -117,6 +120,7 @@ class ExpenseForm extends React.Component {
           />
           <input
             type="text"
+            className="text-input"
             placeholder="Amount"
             value={this.state.amount}
             onChange={this.onAmountChange}
@@ -133,17 +137,23 @@ class ExpenseForm extends React.Component {
             isOutsideRange={() =>
               false
             } /*enables past/finished dates as well, you can set range also, refer doc */
+            block 
           />
 
           <textarea
             name="note"
+            className="textarea"
             placeholder="Add a note for your expense(optional)"
             value={this.state.note}
             onChange={this.onNoteChange}
           ></textarea>
-          <button>Add Expense</button>
+
+        <div>
+          <button className="button">Save Expense</button>
+        </div>
+
         </form>
-      </div>
+     
     );
   }
 }

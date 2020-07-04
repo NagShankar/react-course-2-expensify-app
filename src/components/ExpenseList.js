@@ -5,20 +5,27 @@ import getVisibleFilters from './../selectors/expenses'
 
 export const ExpenseList = (props) => {
     return(
-     <div>
-        <h2>From Expense List</h2>
+     <div className="content-container">
+        <div className="list-header">
+           <div className="show-for-mobile">Expenses</div>
+           <div className="show-for-desktop">Expense</div>
+           <div className="show-for-desktop">Amount</div>
+        </div>
+        
+      
        {/* {props.expenses.length}
         {props.filters.text} */}
-        
-        {
-            props.expenses.length === 0 ? (<p>No expenses yet!!!</p>) : (props.expenses.map((expense)=>{
-              return <ExpenseListItem key={expense.id} {...expense} /> 
-           }))
-        
-        }
-        
+            <div className="list-body">
+                    {
+                        props.expenses.length === 0 ? (<div className="list-item list-item--message"><span>No expenses!</span></div>) : (props.expenses.map((expense)=>{
+                          return <ExpenseListItem key={expense.id} {...expense} /> 
+                       }))
+
+                    }
+            </div>
           
         {/* spreading the remaining data as ...expense */}
+
         </div>
     
     );

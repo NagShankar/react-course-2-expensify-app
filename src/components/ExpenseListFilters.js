@@ -43,36 +43,48 @@ export class ExpenseListFilters extends React.Component {
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          value={this.props.filters.text}
-          onChange={this.onTextChange}
-        />
+      <div className="content-container">
+        <div className="input-group">
+               <div className="input-group__item">
+                      <input
+                      type="text"
+                      className="text-input"
+                      placeholder="Search Expenses"
+                      value={this.props.filters.text}
+                      onChange={this.onTextChange}
+                     />
+               </div>
+                   <div className="input-group__item">
+                      <select
+                      className="select"
+                      value={this.props.filters.sortBy}
+                      onChange={this.onSortChange}>
+                      <option value="date">Date</option>
+                      <option value="amount">Amount</option>
+                    </select>
 
-        <select
-          value={this.props.filters.sortBy}
-          onChange={this.onSortChange}>
-          <option value="date">Date</option>
-          <option value="amount">Amount</option>
-        </select>
+                  </div>
+                 <div className="input-group__item">
+                  <DateRangePicker
+                  startDateId={"dwjkhqkehwqjkeq"}
+                  endDateId={"cxzvcxbzbczxbz"}
+                  startDate={this.props.filters.startDate}
+                  endDate={this.props.filters.endDate}
+                  onDatesChange={this.changingDate}
+                  focusedInput={this.state.calendarFocused} //this is mandatory, with initial value null, has no impact for this project
+                  onFocusChange={this.changeFocus} //this is mandatory, will focus if its Start date and End date by making use of calendarFocused, has no impact for this project
+                  showClearDates={true} //clear the date range by clicking on "X" mark
+                  numberOfMonths={
+                    1
+                  } /*change this number to see as many calendars you want */
+                  isOutsideRange={() =>
+                    false
+                  } /*enables past/finished dates as well, you can set range also, refer doc */
+                />
+                </div>
 
-        <DateRangePicker
-          startDateId={"dwjkhqkehwqjkeq"}
-          endDateId={"cxzvcxbzbczxbz"}
-          startDate={this.props.filters.startDate}
-          endDate={this.props.filters.endDate}
-          onDatesChange={this.changingDate}
-          focusedInput={this.state.calendarFocused} //this is mandatory, with initial value null, has no impact for this project
-          onFocusChange={this.changeFocus} //this is mandatory, will focus if its Start date and End date by making use of calendarFocused, has no impact for this project
-          showClearDates={true} //clear the date range by clicking on "X" mark
-          numberOfMonths={
-            1
-          } /*change this number to see as many calendars you want */
-          isOutsideRange={() =>
-            false
-          } /*enables past/finished dates as well, you can set range also, refer doc */
-        />
+        </div>
+       
       </div>
     );
   }

@@ -4,10 +4,12 @@ import { startLogin } from "./../actions/auth";
 
 export const Login = ({ startLogin }) => { //if you import this then you need curly braces in file which you're importing because its named export
     return(
-      <div> 
-         <h1>Welcome To Expensify App</h1>
-          <h5>Please Login Below</h5>
-           <button onClick={startLogin}>Login</button> 
+      <div className="box-layout"> 
+        <div className="box-layout__box">
+         <h1 className="box-layout__title">Welcome To Expensify</h1>
+          <h5>Please Login Below To Know Your Expenses</h5>
+           <button className="button" onClick={startLogin}>Login (Google)</button> 
+        </div>
         </div>
     
     )
